@@ -46,7 +46,7 @@ class Engine:
         self.logger.addHandler(handler)
         self.logger.setLevel(logging_level)
 
-    def test_program(self, filename, lang_config, input, output):
+    def test_program(self, filename, lang_config, input, output, autoremove=False):
         """Checking source code for passing one test.
 
         Args:
@@ -54,6 +54,7 @@ class Engine:
             lang_config (dict|Map): Config for Program (see Program's class Attributes for structure)
             input (str): Input to be passed into program STDIN
             output (str): Output expected to be got from program
+            autoremove (bool[default=False]): Remove file after execution
 
         Raises:
             FileDoesNotExistError: File named by filename arg is not found
@@ -78,7 +79,7 @@ class Engine:
         self.logger.info('Executing {0}...'.format(program.filename))
         status = Map({'stdout': None})
         try:
-            status = program.execute(input, False)
+            status = program.execute(input, autoremove)
         except Exception as e:
             self.logger.fatal(e)
 

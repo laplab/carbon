@@ -1,4 +1,4 @@
-## Carbon Engine
+## Carbon
 Originally developed for ACM contests but can be used in any other sphere of activity where program need to be compiled, executed and checked for the right answer to specified input.
 
 ### Requirements
@@ -10,19 +10,19 @@ Originally developed for ACM contests but can be used in any other sphere of act
 For running untrusted code Carbon needs to be run by non-root user (this will not give permissions to program and engine will care about time and memory limits).
 
 ### Usage
-An example can be found in `engine.py`. By running:
-```bash
-python engine.py
-```
-You will test simple python program with syntax error. Try to play around with code passed to Carbon and see the log output in console.
+```python
+import logging
+from carbon-engine.engine import Engine
+from carbon-engine.langs_config import py
 
-### Structure
-* `engine.py` - Carbon Engine base class for testing programs.
-* `errors.py` - All errors that can be throwed by Carbon.
-* `helpers.py` - Helpers classes and functions such as `Map` class.
-* `langs_config.py` - Just some examples of languages' configs.
-* `process.py` - Class for running processes with limits.
-* `program.py` - Class for running programs based on language config.
+# init engine with minimal logging level of DEBUG
+en = Engine(logging.DEBUG)
+
+# let's test some code for implementing sum of two integers
+# and autoremove this file after testing
+en.test_program('code.py', py, '4 5', '9', True)
+```
 
 ### ToDo
 * Add length limit to STDOUT of program
+* Move from dicts to config classes
