@@ -41,26 +41,29 @@ class Program:
 
     """
 
-    def __init__(self, code, config):
+    def __init__(self, filename, config):
         """Init method of program.
 
         Args:
-            code (str): Source code to be compiled and executed
+            filename (str): File name of source
             config (dict|Map): Configuration object explained in Attributes section of Program class
 
+        Raises:
+            FileDoesNotExistError: File named by filename arg is not found
         """
+
+        # check if file exists
+        if not os.path.isfile(filename):
+            raise FileDoesNotExistError()
+
+        self.filename, self.config = filename, config
+
         self.logger = logging.getLogger('carbon_engine')
 
-        self.config = config
         if not isinstance(self.config, Map):
             self.config = Map(self.config)
 
-        self.filename = 'carbon_test_' + str(time.time()) + '.' + self.config.extension
         self.compiled = not self.config.compilation.need
-
-        # write code to file
-        with open(self.filename, 'w') as f:
-            f.write(code)
 
     def compile(self):
         """Compiles source and replaces source file with executable.
@@ -69,6 +72,7 @@ class Program:
             CompilationFailedError: If compiler has threw some STDERR of has non-zero return code
             CompilationTimeLimitExceededError: If compilation exceeded time limit
             CompilationMemoryLimitExceededError: If compilation exceeded memory limit
+            FileDoesNotExistError: File named by filename arg is not found
 
         """
         # check if compilation is needed
@@ -119,8 +123,13 @@ class Program:
             ExecutionFailedError: If program has threw some STDERR or has non-zero return code
             ExecutionTimeLimitExceededError: If execution exceeded time limit
             ExecutionMemoryLimitExceededError: If execution exceeded memory limit
+            FileDoesNotExistError: File named by filename parameter of class is not found
 
         """
+
+        # check if file exists
+        if not os.path.isfile(self.filename):
+            raise FileDoesNotExistError()
 
         # check if compiled
         if not self.compiled:

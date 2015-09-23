@@ -1,6 +1,8 @@
+import os.path
 import logging
 from colorlog import ColoredFormatter
 
+from errors import *
 from helpers import Map
 from program import Program
 
@@ -44,43 +46,40 @@ class Engine:
         self.logger.addHandler(handler)
         self.logger.setLevel(logging_level)
 
-    def test_program(self, code, lang_config, input, output):
+    def test_program(self, filename, lang_config, input, output):
         """Checking source code for passing one test.
 
         Args:
-            code (str): Source code to be tested
+            filename (str): File name of source
             lang_config (dict|Map): Config for Program (see Program's class Attributes for structure)
             input (str): Input to be passed into program STDIN
             output (str): Output expected to be got from program
 
+        Raises:
+            FileDoesNotExistError: File named by filename arg is not found
+
         """
+
+        # check if file exists
+        if not os.path.isfile(filename):
+            raise FileDoesNotExistError()
+
         if not isinstance(lang_config, Map):
             lang_config = Map(lang_config)
 
-        program = Program(code, lang_config)
+        program = Program(filename, lang_config)
 
-        self.logger.info('\nProgram ({lang}):\n\n{code}\n\nInput: {input}\nOutput: {output}\n'.format(
-            lang=lang_config.info.lang, code=code, input=input, output=output))
-
-        self.logger.info('Compiling...')
+        self.logger.info('Compiling {0}...'.format(program.filename))
         try:
             program.compile()
         except Exception as e:
             self.logger.fatal(e)
 
-        self.logger.info('Executing...')
+        self.logger.info('Executing {0}...'.format(program.filename))
         status = Map({'stdout': None})
         try:
-            status = program.execute(input, True)
+            status = program.execute(input, False)
         except Exception as e:
             self.logger.fatal(e)
 
         self.logger.info('Comparing STDOUT and expected output... ' + str(status.stdout == output))
-        self.logger.info('Finished.\n\n')
-
-
-if __name__ == "__main__":
-    from langs_config import cpp, py
-    engine = Engine(logging.DEBUG)
-
-    engine.test_program('a, b = [ int(i for i in input().split(" ")]\nprint(a+b, end="")', py, '4 5', '9')
