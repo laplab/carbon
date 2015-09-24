@@ -9,6 +9,11 @@ Originally developed for ACM contests but can be used in any other sphere of act
 ### Security
 For running untrusted code Carbon needs to be run by non-root user (this will not give permissions to program and engine will care about time and memory limits).
 
+### Installation
+```bash
+python setup.py install
+```
+
 ### Usage
 ```python
 import logging

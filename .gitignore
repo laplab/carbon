@@ -1,3 +1,5 @@
 *.odt
 .idea/
 __pycache__/
+dist/
+MANIFEST
