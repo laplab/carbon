@@ -3,7 +3,7 @@ import logging
 import os
 import os.path
 
-from helpers import Map
+from utils import Map
 from process import Process
 from errors import *
 
@@ -50,6 +50,7 @@ class Program:
 
         Raises:
             FileDoesNotExistError: File named by filename arg is not found
+
         """
 
         # check if file exists

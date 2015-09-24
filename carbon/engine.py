@@ -3,7 +3,7 @@ import logging
 from colorlog import ColoredFormatter
 
 from errors import *
-from helpers import Map
+from utils import Map
 from program import Program
 
 

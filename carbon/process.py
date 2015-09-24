@@ -5,7 +5,7 @@ from threading import Thread
 import psutil
 import time
 
-from helpers import Map
+from utils import Map
 
 
 class Process:

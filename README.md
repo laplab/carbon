@@ -12,8 +12,8 @@ For running untrusted code Carbon needs to be run by non-root user (this will no
 ### Usage
 ```python
 import logging
-from carbon-engine.engine import Engine
-from carbon-engine.langs_config import py
+from carbon.engine import Engine
+from carbon.langs_config import py
 
 # init engine with minimal logging level of DEBUG
 en = Engine(logging.DEBUG)
