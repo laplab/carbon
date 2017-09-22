@@ -1,4 +1,4 @@
-## Carbon
+## Carbon ![Unmaintained](https://img.shields.io/badge/status-unmaintained-red.svg)
 Originally developed for ACM contests but can be used in any other sphere of activity where program need to be compiled, executed and checked for the right answer to specified input.
 
 ### Requirements
